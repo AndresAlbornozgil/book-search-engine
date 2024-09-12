@@ -1,45 +1,43 @@
-// Import necessary modules and components
-import './App.css';
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { setContext } from '@apollo/client/link/context';
-import Navbar from './components/Navbar';
-import AuthService from './utils/auth';
+import './App.css';  // Import the CSS file for styling
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'; // Import Apollo Client components for GraphQL integration
+import { Outlet } from 'react-router-dom'; // Import Outlet for nested routing
+import { setContext } from '@apollo/client/link/context'; // Import setContext for setting up request headers
+import AuthService from './utils/auth'; // Import custom authentication service
+import Navbar from './components/Navbar'; // Import the Navbar component
 
-// Setup HTTP link for GraphQL
-const graphqlLink = new HttpLink({
-  uri: '/graphql',
+// Create an HTTP link to connect to the GraphQL endpoint
+const httpLink = createHttpLink({
+  uri: '/graphql', // Specify the GraphQL server URI
 });
 
-// Set up authorization context for JWT support
-const authContextLink = setContext((_, { headers }) => {
-  const token = AuthService.loggedIn() ? AuthService.getToken() : '';
+// Set up a context link to include JWT token in headers for authenticated requests
+const authLink = setContext((request, { headers }) => {
+  // Check if the user is logged in and retrieve the token from local storage
+  const token = AuthService.loggedIn() ? AuthService.getToken() : null;
+  
+  // Return the headers, adding the authorization token if it exists
   return {
     headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      ...headers, // Spread existing headers to keep them intact
+      authorization: token ? `Bearer ${token}` : '', // Set the Authorization header if token is present
     },
   };
 });
 
-// Create Apollo Client instance
-const apolloClient = new ApolloClient({
-  link: authContextLink.concat(graphqlLink),
-  cache: new InMemoryCache(),
+// Initialize the Apollo Client with authentication and HTTP link, and set up in-memory caching
+const client = new ApolloClient({
+  link: authLink.concat(httpLink), // Combine authLink and httpLink for handling requests
+  cache: new InMemoryCache(), // Use InMemoryCache for caching GraphQL data
 });
 
-// Main application component
-const App = () => {
+// Main App component that wraps the application with ApolloProvider
+function App() {
   return (
-    <ApolloProvider client={apolloClient}>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/*" element={<Outlet />} />
-        </Routes>
-      </Router>
+    <ApolloProvider client={client}> {/* Provide Apollo Client to the app for GraphQL queries and mutations */}
+      <Navbar /> {/* Render the navigation bar */}
+      <Outlet /> {/* Render child routes for nested routing */}
     </ApolloProvider>
   );
-};
+}
 
-export default App;
+export default App; // Export the App component as the default export
