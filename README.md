@@ -1,7 +1,7 @@
 # Book Search Engine
 
 ## Description
-A serach engine for books
+This project involves refactoring an existing Google Books API search engine to modernize its architecture and improve performance by leveraging GraphQL. Originally built using the MERN stack (MongoDB, Express.js, React, and Node.js) with a RESTful API, the application allows users to search for books and save their searches to a MongoDB database. This project aims to modernize the book search engine by embracing the latest in web development practices, making it both a learning exercise in GraphQL and a practical enhancement of a real-world application.
 
 ## Table of Contents
 - [Installation](#installation)
