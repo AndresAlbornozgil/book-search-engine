@@ -33,7 +33,7 @@ export const SAVE_BOOK = gql`
 
 
 // Mutation to remove a book from the user's savedBooks
-export const DELETE_BOOK = gql`
+export const REMOVE_BOOK = gql`
   mutation RemoveBookFromUser($bookId: String!) {
     userDeleteBook(bookId: $bookId) {
       savedBooks {

@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { Container, Col, Form, Button, Card, Row } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { searchGoogleBooks } from '../utils/API';
+import { googleBooksSearch } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { SAVE_BOOK } from '../utils/mutations'; // Import your SAVE_BOOK mutation
 
@@ -27,7 +27,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await searchGoogleBooks(searchInput);
+      const response = await googleBooksSearch(searchInput);
 
       if (!response.ok) {
         throw new Error('something went wrong!');

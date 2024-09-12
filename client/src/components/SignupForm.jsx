@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/client';
 import { Form, Button, Alert } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { ADD_USER } from '../utils/mutations'; // Import your ADD_USER mutation
+import { REGISTER_USER } from '../utils/mutations'; // Import your REGISTER_USER mutation
 
 const SignupForm = () => {
   // Set initial form state
@@ -13,8 +13,8 @@ const SignupForm = () => {
   // Set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
-  // Use the useMutation hook for the ADD_USER mutation
-  const [addUser] = useMutation(ADD_USER);
+  // Use the useMutation hook for the REGISTER_USER mutation
+  const [addUser] = useMutation(REGISTER_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

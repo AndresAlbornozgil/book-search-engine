@@ -3,12 +3,12 @@ import { Container, Card, Button, Row, Col } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
-import { GET_ME } from '../utils/queries'; // Import your GET_ME query
+import { FETCH_USER } from '../utils/queries'; // Import your FETCH_USER query
 import { REMOVE_BOOK } from '../utils/mutations'; // Import your REMOVE_BOOK mutation
 
 const SavedBooks = () => {
-  // Execute the GET_ME query on load
-  const { loading, data } = useQuery(GET_ME);
+  // Execute the FETCH_USER query on load
+  const { loading, data } = useQuery(FETCH_USER);
   const userData = data?.me || {}; // Extract user data from the query response
 
   // Use the useMutation hook for the REMOVE_BOOK mutation
@@ -28,9 +28,9 @@ const SavedBooks = () => {
         variables: { bookId },
         update: (cache, { data: { removeBook } }) => {
           // Update the cache to remove the book
-          const { me } = cache.readQuery({ query: GET_ME });
+          const { me } = cache.readQuery({ query: FETCH_USER });
           cache.writeQuery({
-            query: GET_ME,
+            query: FETCH_USER,
             data: { me: { ...me, savedBooks: me.savedBooks.filter((book) => book.bookId !== bookId) } },
           });
         },
