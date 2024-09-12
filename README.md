@@ -18,7 +18,7 @@ This project does not require an installation. However, you are welcome to to ei
 Deployed on [](.........)
 
 
-![image of Book Search Engine](...........)
+![image of Book Search Engine](client/src/assets/book-search-engine-cover.JPG)
 
 ## Credits
 Andres Albornoz
